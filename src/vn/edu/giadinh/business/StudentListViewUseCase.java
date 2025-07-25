@@ -2,6 +2,7 @@ package vn.edu.giadinh.business;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,13 @@ public class StudentListViewUseCase {
 		List<StudentDTO> listDTO = null;
 		List<Student> students = null;
 		listDTO = listViewDAO.getAll();
+		StudentViewModel model = null;
 		
 		//convert StudentDTO => Student
 		students = convertToBusinessObjects(listDTO);
-		listViewUI.showList(students);
+		//convert students business to StudentViewModel
+		model = convertToViewModel(students);
+		listViewUI.showList(model);
 	}
 	
 	private List<Student> convertToBusinessObjects(List<StudentDTO> dtos) {
@@ -50,6 +54,31 @@ public class StudentListViewUseCase {
 			}
 		}
 		return students;
+	}
+	
+	private StudentViewModel convertToViewModel(List<Student> students) {
+		StudentViewModel model = new StudentViewModel();
+		List<StudentViewItem> itemList = new ArrayList<StudentViewItem>();
+	    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+
+		int stt = 1;
+		
+		for (Student student : students) {
+			StudentViewItem item = new StudentViewItem();
+			item.stt = stt++;
+			item.id = student.getId();
+			item.name = student.getName();
+			item.birthDate = fmt.format(student.getBirthDate());
+			item.major = student.getMajor();
+			item.gpa = String.format("%.2f",student.calculateGPA());
+			item.academicRank = student.classifyAcademic();
+			itemList.add(item);
+		}
+		
+		model.studentList = itemList;
+		
+		return model;
+		
 	}
 	
 	

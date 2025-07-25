@@ -3,6 +3,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import vn.edu.giadinh.business.Student;
+import vn.edu.giadinh.business.StudentViewItem;
+import vn.edu.giadinh.business.StudentViewModel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -45,18 +47,17 @@ public class StudentListViewUI extends JFrame {
        
     }
 
-    public void showList(List<Student> students) {
+    public void showList(StudentViewModel studentViewModel) {
         model.setRowCount(0);
-        int stt = 1;
-        for (Student s : students) {
+        for (StudentViewItem item : studentViewModel.studentList) {
             Object[] row = {
-                stt++,
-                s.getId(),
-                s.getName(),
-                fmt.format(s.getBirthDate()),
-                s.getMajor(),
-                String.format("%.2f", s.calculateGPA()),
-                s.classifyAcademic()
+                item.stt,
+                item.id,
+                item.name,
+                item.birthDate,
+                item.major,
+                item.gpa,
+                item.academicRank
             };
             model.addRow(row);
         }
