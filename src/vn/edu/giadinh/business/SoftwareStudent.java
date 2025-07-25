@@ -1,4 +1,4 @@
-package vn.edu.giadinh;
+package vn.edu.giadinh.business;
 
 import java.util.Date;
 
