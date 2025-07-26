@@ -12,27 +12,22 @@ import vn.edu.giadinh.presentation.StudentListViewUI;
 
 public class StudentListViewUseCase {
 	private StudentListViewDAO listViewDAO;
-	private StudentListViewUI listViewUI;
 	
 	
-	public StudentListViewUseCase(StudentListViewDAO listViewDAO, 
-			StudentListViewUI listViewUI) {
+	public StudentListViewUseCase(StudentListViewDAO listViewDAO) {
 		super();
 		this.listViewDAO = listViewDAO;
-		this.listViewUI = listViewUI;
 	}
 	
-	public void execute() throws SQLException, ParseException {
+	public List<StudentViewItem> execute() throws SQLException, ParseException {
 		List<StudentDTO> listDTO = null;
 		List<Student> students = null;
 		listDTO = listViewDAO.getAll();
-		StudentViewModel model = null;
 		
 		//convert StudentDTO => Student
 		students = convertToBusinessObjects(listDTO);
 		//convert students business to StudentViewModel
-		model = convertToViewModel(students);
-		listViewUI.showList(model);
+		return convertToViewModel(students);
 	}
 	
 	private List<Student> convertToBusinessObjects(List<StudentDTO> dtos) {
@@ -56,8 +51,7 @@ public class StudentListViewUseCase {
 		return students;
 	}
 	
-	private StudentViewModel convertToViewModel(List<Student> students) {
-		StudentViewModel model = new StudentViewModel();
+	private List<StudentViewItem> convertToViewModel(List<Student> students) {
 		List<StudentViewItem> itemList = new ArrayList<StudentViewItem>();
 	    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -75,9 +69,8 @@ public class StudentListViewUseCase {
 			itemList.add(item);
 		}
 		
-		model.studentList = itemList;
 		
-		return model;
+		return itemList;
 		
 	}
 	
