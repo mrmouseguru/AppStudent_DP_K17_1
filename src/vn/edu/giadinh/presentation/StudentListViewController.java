@@ -11,15 +11,16 @@ import vn.edu.giadinh.business.StudentViewModel;
 
 public class StudentListViewController {
 	private StudentViewModel model;
-	private StudentListViewUI view;
+	//private StudentListViewUI view;
 	private StudentListViewUseCase listViewUseCase;
 	
 	
 	
-	public StudentListViewController(StudentViewModel model, StudentListViewUI view) {
+	public StudentListViewController(StudentViewModel model /*, 
+			StudentListViewUI view*/) {
 		super();
 		this.model = model;
-		this.view = view;
+		//this.view = view;
 	}
 	
 	public void setListViewUseCase(StudentListViewUseCase listViewUseCase) {
@@ -40,9 +41,11 @@ public class StudentListViewController {
 		//gửi thông điệp đến Model
 		//yêu cầu model cập nhật dữ liệu mới
 		model.studentList = newList;
+		//model gửi thông điệp đến tất cả các subscribers
+		model.notifySubscribers();
 		//gửi thông điệp cho View ###########[THỦ CÔNG]
 		//yêu cầu View lấy dữ liệu từ Model trình diễn
-		view.showList(model);
+		//view.showList(model);
 		
 	}
 

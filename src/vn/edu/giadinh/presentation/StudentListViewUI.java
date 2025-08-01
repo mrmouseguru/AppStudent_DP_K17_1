@@ -13,12 +13,13 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-public class StudentListViewUI extends JFrame {
+public class StudentListViewUI extends JFrame implements Subscriber {
     private JTextField txtSearch;
     private JButton btnAdd;
     private JTable table;
     private DefaultTableModel model;
     private SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+    private StudentViewModel viewModel;
 
     public StudentListViewUI() {
         super("Danh sách sinh viên");
@@ -47,7 +48,14 @@ public class StudentListViewUI extends JFrame {
        
     }
 
-    public void showList(StudentViewModel studentViewModel) {
+    public void setViewModel(StudentViewModel viewModel) {
+		this.viewModel = viewModel;
+		
+		//đăng ký subscriber với publisher
+		viewModel.addSubscriber(this);
+	}
+    
+    private void showList(StudentViewModel studentViewModel) {
         model.setRowCount(0);
         for (StudentViewItem item : studentViewModel.studentList) {
             Object[] row = {
@@ -62,6 +70,13 @@ public class StudentListViewUI extends JFrame {
             model.addRow(row);
         }
     }
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		this.showList(viewModel);
+		
+	}
 
    
 }

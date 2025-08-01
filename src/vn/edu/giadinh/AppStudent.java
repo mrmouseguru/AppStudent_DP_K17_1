@@ -16,11 +16,12 @@ public class AppStudent {
 		StudentListViewUI view = new StudentListViewUI();
 		StudentListViewController controller = null;
 		StudentViewModel model = new StudentViewModel();
+		view.setViewModel(model);
 		StudentListViewUseCase listViewUseCase  = null;
 		try {
 			StudentListViewDAO listViewDAO = new StudentListViewDAO();
 			listViewUseCase = new StudentListViewUseCase(listViewDAO);
-			controller = new StudentListViewController(model, view);
+			controller = new StudentListViewController(model);
 			controller.setListViewUseCase(listViewUseCase);
 			
 			controller.execute();
