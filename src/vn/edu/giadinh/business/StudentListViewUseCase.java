@@ -9,6 +9,7 @@ import java.util.List;
 import vn.edu.giadinh.persistence.StudentDTO;
 import vn.edu.giadinh.persistence.StudentListViewDAO;
 import vn.edu.giadinh.presentation.StudentListViewUI;
+import vn.edu.giadinh.presentation.StudentViewItem;
 
 public class StudentListViewUseCase {
 	private StudentListViewDAO listViewDAO;
@@ -19,7 +20,7 @@ public class StudentListViewUseCase {
 		this.listViewDAO = listViewDAO;
 	}
 	
-	public List<StudentViewItem> execute() throws SQLException, ParseException {
+	public List<StudentViewDTO> execute() throws SQLException, ParseException {
 		List<StudentDTO> listDTO = null;
 		List<Student> students = null;
 		listDTO = listViewDAO.getAll();
@@ -27,7 +28,7 @@ public class StudentListViewUseCase {
 		//convert StudentDTO => Student
 		students = convertToBusinessObjects(listDTO);
 		//convert students business to StudentViewModel
-		return convertToViewModel(students);
+		return this.convertToViewDTO(students);
 	}
 	
 	private List<Student> convertToBusinessObjects(List<StudentDTO> dtos) {
@@ -51,24 +52,18 @@ public class StudentListViewUseCase {
 		return students;
 	}
 	
-	private List<StudentViewItem> convertToViewModel(List<Student> students) {
-		List<StudentViewItem> itemList = new ArrayList<StudentViewItem>();
-	    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-
-		int stt = 1;
-		
+	private List<StudentViewDTO> convertToViewDTO(List<Student> students) {
+		List<StudentViewDTO> itemList = new ArrayList<StudentViewDTO>();
 		for (Student student : students) {
-			StudentViewItem item = new StudentViewItem();
-			item.stt = stt++;
-			item.id = student.getId();
-			item.name = student.getName();
-			item.birthDate = fmt.format(student.getBirthDate());
-			item.major = student.getMajor();
-			item.gpa = String.format("%.2f",student.calculateGPA());
-			item.academicRank = student.classifyAcademic();
-			itemList.add(item);
+			StudentViewDTO dto = new StudentViewDTO();
+			dto.id = student.getId();
+			dto.name = student.getName();
+			dto.birthDate = student.getBirthDate();
+			dto.major = student.getMajor();
+			dto.gpa = student.calculateGPA();
+			dto.academicRank = student.classifyAcademic();
+			itemList.add(dto);
 		}
-		
 		
 		return itemList;
 		

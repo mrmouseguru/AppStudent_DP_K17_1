@@ -3,8 +3,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import vn.edu.giadinh.business.Student;
-import vn.edu.giadinh.business.StudentViewItem;
-import vn.edu.giadinh.business.StudentViewModel;
 
 import java.awt.*;
 import java.awt.event.*;

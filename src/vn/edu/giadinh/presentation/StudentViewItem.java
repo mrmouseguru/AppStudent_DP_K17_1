@@ -1,4 +1,4 @@
-package vn.edu.giadinh.business;
+package vn.edu.giadinh.presentation;
 
 public class StudentViewItem {
 	public int stt;

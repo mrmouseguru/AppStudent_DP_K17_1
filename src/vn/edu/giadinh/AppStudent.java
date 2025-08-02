@@ -4,10 +4,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 import vn.edu.giadinh.business.StudentListViewUseCase;
-import vn.edu.giadinh.business.StudentViewModel;
 import vn.edu.giadinh.persistence.StudentListViewDAO;
 import vn.edu.giadinh.presentation.StudentListViewController;
 import vn.edu.giadinh.presentation.StudentListViewUI;
+import vn.edu.giadinh.presentation.StudentViewModel;
 
 public class AppStudent {
 
