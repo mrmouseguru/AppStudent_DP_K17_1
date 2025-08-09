@@ -3,6 +3,12 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import vn.edu.giadinh.business.Student;
+import vn.edu.giadinh.business.OpenAddStudentForm.OpenAddStudentFromUseCase;
+import vn.edu.giadinh.persistence.OpenAddStudentForm.OpenAddStudentFormDAO;
+import vn.edu.giadinh.persistence.OpenAddStudentForm.OpenAddStudentFormGateway;
+import vn.edu.giadinh.presentation.OpenAddStudentForm.OpenAddStudentFormController;
+import vn.edu.giadinh.presentation.OpenAddStudentForm.OpenAddStudentFormModel;
+import vn.edu.giadinh.presentation.OpenAddStudentForm.OpenAddStudentFormView;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,7 +47,27 @@ public class StudentListViewUI extends JFrame implements Subscriber {
         table = new JTable(model);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
-       
+        btnAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				OpenAddStudentFormController controller;
+				OpenAddStudentFormView view;
+				view = new OpenAddStudentFormView();
+				OpenAddStudentFromUseCase uc;
+				OpenAddStudentFormGateway gateway;
+				OpenAddStudentFormModel model;
+				gateway = new OpenAddStudentFormDAO();
+				uc = new OpenAddStudentFromUseCase(gateway);
+				model = new OpenAddStudentFormModel();
+				
+				view.setModel(model);
+				
+				
+				controller = new OpenAddStudentFormController(model, uc);
+				controller.execute();
+			}
+		});
 
        
     }
